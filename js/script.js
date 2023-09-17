@@ -1,4 +1,5 @@
 const Name = document.getElementById('name');
+const Email = document.getElementById('email');
 const jobRole = document.getElementById('title');
 const otherJobRole = document.getElementById('other-job-role');
 const designOption = document.getElementById('design');
@@ -12,6 +13,23 @@ const payment = document.getElementById('payment');
 const card = document.getElementById('credit-card');
 const paypal = document.getElementById('paypal');
 const bitcoin = document.getElementById('bitcoin');
+const cardNum = document.getElementById('cc-num');
+const zip = document.getElementById('zip');
+const cvv = document.getElementById('cvv');
+const form = document.querySelector('form');
+
+const nameErr = document.getElementById('name-hint');
+const emailErr = document.getElementById('email-hint');
+const activitiesHint = document.getElementById('activities-hint');
+const cardHint = document.getElementById('cc-hint');
+const zipHint = document.getElementById('zip-hint');
+const cvvHint = document.getElementById('cvv-hint');
+
+const labelErrorName = Name.parentNode;
+const labelErrorEmail = Email.parentNode;
+const labelErrorCard = cardNum.parentNode;
+const labelErrorZip = zip.parentNode;
+const labelErrorCvv = cvv.parentNode;
 
 Name.focus();
 otherJobRole.style.display = 'none';
@@ -73,3 +91,15 @@ payment.addEventListener('change', () => {
         bitcoin.style.display = '';
     }
 });
+
+function nameValid() {
+    
+}
+
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    if(!nameValid) {
+        e.preventDefault();
+    }
+})
