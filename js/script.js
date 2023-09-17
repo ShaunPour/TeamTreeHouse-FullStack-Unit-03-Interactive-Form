@@ -1,4 +1,5 @@
 const Name = document.getElementById('name');
+let nameVal = Name.value;
 const Email = document.getElementById('email');
 const jobRole = document.getElementById('title');
 const otherJobRole = document.getElementById('other-job-role');
@@ -18,18 +19,18 @@ const zip = document.getElementById('zip');
 const cvv = document.getElementById('cvv');
 const form = document.querySelector('form');
 
-const nameErr = document.getElementById('name-hint');
-const emailErr = document.getElementById('email-hint');
-const activitiesHint = document.getElementById('activities-hint');
-const cardHint = document.getElementById('cc-hint');
-const zipHint = document.getElementById('zip-hint');
-const cvvHint = document.getElementById('cvv-hint');
-
 const labelErrorName = Name.parentNode;
 const labelErrorEmail = Email.parentNode;
 const labelErrorCard = cardNum.parentNode;
 const labelErrorZip = zip.parentNode;
 const labelErrorCvv = cvv.parentNode;
+
+const nameErr = Name.nextElementSibling;
+const emailErr = document.getElementById('email-hint');
+const activitiesHint = document.getElementById('activities-hint');
+const cardHint = document.getElementById('cc-hint');
+const zipHint = document.getElementById('zip-hint');
+const cvvHint = document.getElementById('cvv-hint');
 
 Name.focus();
 otherJobRole.style.display = 'none';
@@ -93,13 +94,26 @@ payment.addEventListener('change', () => {
 });
 
 function nameValid() {
-    
+    if (nameVal.trim() == '') {
+        labelErrorName.style.display = 'block';
+        nameErr.style.display = 'block';
+        labelErrorName.classList.add('not-valid');
+        nameErr.classList.add('not-valid');
+        console.log('No!');
+        return false;
+    }
+    labelErrorName.style.display = 'none';
+        labelErrorName.classList.add('valid');
+        nameErr.classList.add('valid');
+        console.log('Yes!');
+        return true;
 }
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    if(!nameValid) {
+    if(!nameValid()) {
         e.preventDefault();
     }
+    e.preventDefault();
 })
