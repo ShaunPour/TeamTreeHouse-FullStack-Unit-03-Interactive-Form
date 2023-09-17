@@ -25,12 +25,12 @@ const labelErrorCard = cardNum.parentNode;
 const labelErrorZip = zip.parentNode;
 const labelErrorCvv = cvv.parentNode;
 
-const nameErr = Name.nextElementSibling;
+const nameErr = document.getElementById('name-hint');
 const emailErr = document.getElementById('email-hint');
 const activitiesHint = document.getElementById('activities-hint');
-const cardHint = document.getElementById('cc-hint');
-const zipHint = document.getElementById('zip-hint');
-const cvvHint = document.getElementById('cvv-hint');
+const cardErr = document.getElementById('cc-hint');
+const zipErr = document.getElementById('zip-hint');
+const cvvErr = document.getElementById('cvv-hint');
 
 Name.focus();
 otherJobRole.style.display = 'none';
@@ -98,14 +98,73 @@ function nameValid() {
         labelErrorName.style.display = 'block';
         nameErr.style.display = 'block';
         labelErrorName.classList.add('not-valid');
-        nameErr.classList.add('not-valid');
-        console.log('No!');
         return false;
     }
     labelErrorName.style.display = 'none';
+    nameErr.style.display = 'none';
         labelErrorName.classList.add('valid');
         nameErr.classList.add('valid');
-        console.log('Yes!');
+        return true;
+}
+
+function emailValid() {
+    const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    let emailAddress = regex.test(Email.value);
+    if(!emailAddress) {
+        labelErrorEmail.style.display = 'block';
+        emailErr.style.display = 'block';
+        labelErrorEmail.classList.add('not-valid');
+        return false;
+    }
+        labelErrorEmail.style.display = 'none';
+        emailErr.style.display = 'none';
+        labelErrorEmail.classList.add('valid');
+        return true;
+}
+
+function activitiesValid() {
+    
+}
+
+function cardValid() {
+    const regexCC = /^\d{13,16}$/;
+    let cardTest = regexCC.test(cardNum.value);
+
+    if(!cardTest) {
+        labelErrorCard.style.display = 'block';
+        cardErr.style.display = 'block';
+        labelErrorCard.classList.add('not-valid');
+        return false;
+    }
+        labelErrorCard.style.display = 'none';
+        cardErr.style.display = 'none';
+        labelErrorCard.classList.add('valid');
+        return true;
+}
+
+function zipValid() {
+    if(zip.value.length != 5) {
+        labelErrorZip.style.display = 'block';
+        zipErr.style.display = 'block';
+        labelErrorZip.classList.add('not-valid');
+        return false;
+    }
+        labelErrorZip.style.display = 'none';
+        zipErr.style.display = 'none';
+        labelErrorZip.classList.add('valid');
+        return true;
+}
+
+function cvvValid() {
+    if(cvv.value.length != 3) {
+        labelErrorCvv.style.display = 'block';
+        cvvErr.style.display = 'block';
+        labelErrorCvv.classList.add('not-valid');
+        return false;
+    }
+        labelErrorCvv.style.display = 'none';
+        cvvErr.style.display = 'none';
+        labelErrorCvv.classList.add('valid');
         return true;
 }
 
@@ -113,6 +172,26 @@ form.addEventListener('submit', (e) => {
     e.preventDefault();
 
     if(!nameValid()) {
+        e.preventDefault();
+    }
+
+    if(!emailValid()) {
+        e.preventDefault();
+    }
+
+    if(!activitiesValid()) {
+        e.preventDefault();
+    }
+
+    if(!cardValid()) {
+        e.preventDefault();
+    }
+
+    if(!zipValid()) {
+        e.preventDefault();
+    }
+
+    if(!cvvValid) {
         e.preventDefault();
     }
     e.preventDefault();
