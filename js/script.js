@@ -18,6 +18,17 @@ const zip = document.getElementById('zip');
 const cvv = document.getElementById('cvv');
 const form = document.querySelector('form');
 
+const nameErr = document.getElementById('name-hint');
+const nameLabel = Name.parentNode;
+const emailErr = document.getElementById('email-hint');
+const emailLabel = Email.parentNode;
+const cardErr = document.getElementById('cc-hint');
+const cardLabel = cardNum.parentNode;
+const zipErr = document.getElementById('zip-hint');
+const zipLabel = zip.parentNode;
+const cvvErr = document.getElementById('cvv-hint');
+const cvvLabel = cvv.parentNode;
+
 Name.focus();
 otherJobRole.style.display = 'none';
 paypal.style.display = 'none';
@@ -79,9 +90,6 @@ payment.addEventListener('change', () => {
     }
 });
 
-const nameErr = document.getElementById('name-hint');
-const nameLabel = Name.parentNode;
-
 function nameValid(Name, nameErr, nameLabel) {
     const nameVal = Name.value.trim();
     if (nameVal === '') {
@@ -96,9 +104,6 @@ function nameValid(Name, nameErr, nameLabel) {
         return false;
     }
 }
-
-const emailErr = document.getElementById('email-hint');
-const emailLabel = Email.parentNode;
 
 function emailValid(Email, emailErr, emailLabel) {
     const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(Email.value);
@@ -115,12 +120,9 @@ function emailValid(Email, emailErr, emailLabel) {
     }
 }
 
-// function activitiesValid() {
+function activitiesValid() {
     
-// }
-
-const cardErr = document.getElementById('cc-hint');
-const cardLabel = cardNum.parentNode;
+}
 
 function cardValid(cardNum, cardErr, cardLabel) {
     const regexCC = /^\d{13,16}$/.test(cardNum.value);
@@ -144,9 +146,6 @@ function cardValid(cardNum, cardErr, cardLabel) {
     }
 }
 
-const zipErr = document.getElementById('zip-hint');
-const zipLabel = zip.parentNode;
-
 function zipValid(zip, zipErr, zipLabel) {
     if(zip.value.length != 5) {
         zipErr.style.display = 'block';
@@ -160,9 +159,6 @@ function zipValid(zip, zipErr, zipLabel) {
         return true;
     }
 }
-
-const cvvErr = document.getElementById('cvv-hint');
-const cvvLabel = cvv.parentNode;
 
 function cvvValid(cvv, cvvErr, cvvLabel) {
     if(cvv.value.length != 3) {
@@ -209,8 +205,4 @@ form.addEventListener('submit', (e) => {
     if(!validName | !validMail | !validCC | !validZip | !validCvv) {
         e.preventDefault();
     }
-
-    // if(!activitiesValid()) {
-    //     e.preventDefault();
-    // }
 });
