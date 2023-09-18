@@ -1,5 +1,4 @@
 const Name = document.getElementById('name');
-let nameVal = Name.value;
 const Email = document.getElementById('email');
 const jobRole = document.getElementById('title');
 const otherJobRole = document.getElementById('other-job-role');
@@ -18,19 +17,6 @@ const cardNum = document.getElementById('cc-num');
 const zip = document.getElementById('zip');
 const cvv = document.getElementById('cvv');
 const form = document.querySelector('form');
-
-const labelErrorName = Name.parentNode;
-const labelErrorEmail = Email.parentNode;
-const labelErrorCard = cardNum.parentNode;
-const labelErrorZip = zip.parentNode;
-const labelErrorCvv = cvv.parentNode;
-
-const nameErr = document.getElementById('name-hint');
-const emailErr = document.getElementById('email-hint');
-const activitiesHint = document.getElementById('activities-hint');
-const cardErr = document.getElementById('cc-hint');
-const zipErr = document.getElementById('zip-hint');
-const cvvErr = document.getElementById('cvv-hint');
 
 Name.focus();
 otherJobRole.style.display = 'none';
@@ -93,106 +79,138 @@ payment.addEventListener('change', () => {
     }
 });
 
-function nameValid() {
-    if (nameVal.trim() == '') {
-        labelErrorName.style.display = 'block';
+const nameErr = document.getElementById('name-hint');
+const nameLabel = Name.parentNode;
+
+function nameValid(Name, nameErr, nameLabel) {
+    const nameVal = Name.value.trim();
+    if (nameVal === '') {
         nameErr.style.display = 'block';
-        labelErrorName.classList.add('not-valid');
+        nameLabel.classList.add('not-valid');
+        nameLabel.classList.remove('valid');
+        return false;
+    } else {
+        nameErr.style.display = 'none';
+        nameLabel.classList.add('valid');
+        nameLabel.classList.remove('not-valid');
         return false;
     }
-    labelErrorName.style.display = 'none';
-    nameErr.style.display = 'none';
-        labelErrorName.classList.add('valid');
-        nameErr.classList.add('valid');
-        return true;
 }
 
-function emailValid() {
-    const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-    let emailAddress = regex.test(Email.value);
-    if(!emailAddress) {
-        labelErrorEmail.style.display = 'block';
+const emailErr = document.getElementById('email-hint');
+const emailLabel = Email.parentNode;
+
+function emailValid(Email, emailErr, emailLabel) {
+    const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(Email.value);
+    if(Email.value === '' || !regex) {
         emailErr.style.display = 'block';
-        labelErrorEmail.classList.add('not-valid');
+        emailLabel.classList.add('not-valid');
+        emailLabel.classList.remove('valid');
         return false;
-    }
-        labelErrorEmail.style.display = 'none';
+    } else {
         emailErr.style.display = 'none';
-        labelErrorEmail.classList.add('valid');
+        emailLabel.classList.add('valid');
+        emailLabel.classList.remove('not-valid');
         return true;
+    }
 }
 
-function activitiesValid() {
+// function activitiesValid() {
     
-}
+// }
 
-function cardValid() {
-    const regexCC = /^\d{13,16}$/;
-    let cardTest = regexCC.test(cardNum.value);
+const cardErr = document.getElementById('cc-hint');
+const cardLabel = cardNum.parentNode;
 
-    if(!cardTest) {
-        labelErrorCard.style.display = 'block';
+function cardValid(cardNum, cardErr, cardLabel) {
+    const regexCC = /^\d{13,16}$/.test(cardNum.value);
+    if(cardNum.value === '') {
+        cardErr.innerHTML = 'Card number is required';
         cardErr.style.display = 'block';
-        labelErrorCard.classList.add('not-valid');
+        cardLabel.classList.add('not-valid');
+        cardLabel.classList.remove('valid');
         return false;
+    } else if (!regexCC) {
+            cardErr.innerHTML = 'Credit card number must be between 13 - 16 digits';
+            cardErr.style.display = 'block';
+            cardLabel.classList.add('not-valid');
+            cardLabel.classList.remove('valid');
+            return false;
+    } else {
+            cardErr.style.display = 'none';
+            cardLabel.classList.add('valid');
+            cardLabel.classList.remove('not-valid');
+            return true;
     }
-        labelErrorCard.style.display = 'none';
-        cardErr.style.display = 'none';
-        labelErrorCard.classList.add('valid');
-        return true;
 }
 
-function zipValid() {
+const zipErr = document.getElementById('zip-hint');
+const zipLabel = zip.parentNode;
+
+function zipValid(zip, zipErr, zipLabel) {
     if(zip.value.length != 5) {
-        labelErrorZip.style.display = 'block';
         zipErr.style.display = 'block';
-        labelErrorZip.classList.add('not-valid');
+        zipLabel.classList.add('not-valid');
+        zipLabel.classList.remove('valid');
         return false;
-    }
-        labelErrorZip.style.display = 'none';
+    } else {
         zipErr.style.display = 'none';
-        labelErrorZip.classList.add('valid');
+        zipLabel.classList.add('valid');
+        zipLabel.classList.remove('not-valid');
         return true;
+    }
 }
 
-function cvvValid() {
+const cvvErr = document.getElementById('cvv-hint');
+const cvvLabel = cvv.parentNode;
+
+function cvvValid(cvv, cvvErr, cvvLabel) {
     if(cvv.value.length != 3) {
-        labelErrorCvv.style.display = 'block';
         cvvErr.style.display = 'block';
-        labelErrorCvv.classList.add('not-valid');
+        cvvLabel.classList.add('not-valid');
+        cvvLabel.classList.remove('valid');
         return false;
-    }
-        labelErrorCvv.style.display = 'none';
+    } else {
         cvvErr.style.display = 'none';
-        labelErrorCvv.classList.add('valid');
+        cvvLabel.classList.add('valid');
+        cvvLabel.classList.remove('not-valid');
         return true;
+    }
 }
+
+Name.addEventListener('keyup', () => {
+    nameValid(Name, nameErr, nameLabel);
+});
+
+Email.addEventListener('keyup', () => {
+    emailValid(Email, emailErr, emailLabel);
+});
+
+cardNum.addEventListener('keyup', () => {
+    cardValid(cardNum, cardErr, cardLabel);
+});
+
+zip.addEventListener('keyup', () => {
+    zipValid(zip, zipErr, zipLabel);
+});
+
+cvv.addEventListener('keyup', () => {
+    cvvValid(cvv, cvvErr, cvvLabel);
+});
 
 form.addEventListener('submit', (e) => {
+    const validName = nameValid(Name, nameErr, nameLabel);
+    const validMail = emailValid(Email, emailErr, emailLabel);
+    const validCC = cardValid(cardNum, cardErr, cardLabel);
+    const validZip = zipValid(zip, zipErr, zipLabel);
+    const validCvv = cvvValid(cvv, cvvErr, cvvLabel);
     e.preventDefault();
 
-    if(!nameValid()) {
+    if(!validName | !validMail | !validCC | !validZip | !validCvv) {
         e.preventDefault();
     }
 
-    if(!emailValid()) {
-        e.preventDefault();
-    }
-
-    if(!activitiesValid()) {
-        e.preventDefault();
-    }
-
-    if(!cardValid()) {
-        e.preventDefault();
-    }
-
-    if(!zipValid()) {
-        e.preventDefault();
-    }
-
-    if(!cvvValid) {
-        e.preventDefault();
-    }
-    e.preventDefault();
-})
+    // if(!activitiesValid()) {
+    //     e.preventDefault();
+    // }
+});
