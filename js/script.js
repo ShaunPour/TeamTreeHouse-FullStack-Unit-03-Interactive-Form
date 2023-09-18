@@ -1,3 +1,6 @@
+/*Variables for the multitude of elements needed for interacting with the page below. Group into sections based on relationship to each other.
+The interaction with most is simply grabbing some text from an input or changing the element's interactibility (i.e. making it so the other job field only shows when thtat role is selected).
+*/
 const Name = document.getElementById('name');
 const Email = document.getElementById('email');
 const jobRole = document.getElementById('title');
@@ -5,9 +8,15 @@ const otherJobRole = document.getElementById('other-job-role');
 const designOption = document.getElementById('design');
 const colorOptionList = document.getElementById('color');
 
+// The elements below relate to the activities fieldset section and the prices. They will be used in that function below to change the displayed price based on which activities the user has selected and keep track of the price through any changes to it.
+
 const activities = document.getElementById('activities');
 let totalCost = 0;
 const total = document.getElementById("activities-cost");
+
+/*
+
+*/
 
 const payment = document.getElementById('payment');
 const card = document.getElementById('credit-card');
@@ -195,14 +204,8 @@ cvv.addEventListener('keyup', () => {
 });
 
 form.addEventListener('submit', (e) => {
-    const validName = nameValid(Name, nameErr, nameLabel);
-    const validMail = emailValid(Email, emailErr, emailLabel);
-    const validCC = cardValid(cardNum, cardErr, cardLabel);
-    const validZip = zipValid(zip, zipErr, zipLabel);
-    const validCvv = cvvValid(cvv, cvvErr, cvvLabel);
     e.preventDefault();
-
-    if(!validName | !validMail | !validCC | !validZip | !validCvv) {
+    if(nameValid(Name, nameErr, nameLabel) | emailValid(Email, emailErr, emailLabel) | !cardValid(cardNum, cardErr, cardLabel) | !zipValid(zip, zipErr, zipLabel) | !cvvValid(cvv, cvvErr, cvvLabel)) {
         e.preventDefault();
     }
 });
