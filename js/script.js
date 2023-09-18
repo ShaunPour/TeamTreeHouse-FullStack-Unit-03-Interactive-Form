@@ -204,8 +204,32 @@ cvv.addEventListener('keyup', () => {
 });
 
 form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    if(nameValid(Name, nameErr, nameLabel) | emailValid(Email, emailErr, emailLabel) | !cardValid(cardNum, cardErr, cardLabel) | !zipValid(zip, zipErr, zipLabel) | !cvvValid(cvv, cvvErr, cvvLabel)) {
+    if(nameValid(Name, nameErr, nameLabel)) {
         e.preventDefault();
     }
+    if(!emailValid(Email, emailErr, emailLabel)) {
+        e.preventDefault();
+    }
+    if(!emailValid(Email, emailErr, emailLabel)) {
+        e.preventDefault();
+    }
+    let paymentCC = false;
+    if(payment.value == 'credit-card') {
+        paymentCC = true;
+    } else {
+        paymentCC = false;
+    }
+        if(!cardValid(cardNum, cardErr, cardLabel) && paymentCC == true) {
+            e.preventDefault();
+        }
+        if(!zipValid(zip, zipErr, zipLabel) && paymentCC == true) {
+            e.preventDefault();
+        }
+        if(!cvvValid(cvv, cvvErr, cvvLabel) && paymentCC == true) {
+            e.preventDefault();
+        }
+    // if(!activitiesValid()) {
+    //     e.preventDefault();
+    // }
+    e.preventDefault();
 });
