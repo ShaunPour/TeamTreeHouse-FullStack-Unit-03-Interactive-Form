@@ -1,5 +1,5 @@
 /*Variables for the multitude of elements needed for interacting with the page below. Group into sections based on relationship to each other.
-The interaction with most is simply grabbing some text from an input or changing the element's interactibility (i.e. making it so the other job field only shows when that role is selected).
+The interaction with most is simply grabbing some text from an input or changing the element's interactibility (i.e. making it so the other job field only shows when thtat role is selected).
 */
 const Name = document.getElementById('name');
 const Email = document.getElementById('email');
@@ -93,17 +93,33 @@ designOption.addEventListener('change', () => {
 The below section interacts with the totalCost variable from above to listen for any change to the activities section. It also contains a variable that interacts with the function parameter and grabs its' data cost attribute.
 After acquiring the cost from its' attribute, the function checks to see if the target element's state is being changed to be checked or unchecked. If it is being checked then the value of the data cost attribute is added to the totalCost
 variable before using that information to modify the text value of the total cost displayed at the bottom of the section. If an element is being unchecked then it subtracts from totalCost instead.
+
+In addition, this section contains two parallel forEach loops to access the day and time of the various elements and disable the checkboxes that are at conflicting times to the one(s) already selected.
 */
 
 activities.addEventListener('change', (event) => {
     const dataTarget = parseInt(event.target.getAttribute('data-cost'));
     const time = event.target.getAttribute('data-day-and-time');
-    console.log(time);
 
     if(event.target.checked) {
+            activityBox.forEach((eventTime) => {
+                const eventVal = eventTime.getAttribute('data-day-and-time');
+                if(eventTime !== event.target && eventVal === time) {
+                        eventTime.disabled = true;
+                        eventTime.parentNode.classList.add('disabled');
+                    }
+            });
         totalCost += dataTarget;
         total.innerHTML = `Total: $${totalCost}`;
     } else if(!event.target.checked) {
+        activityBox.forEach((eventTime) => {
+            const eventVal = eventTime.getAttribute('data-day-and-time');
+            if(eventTime !== event.target && eventVal === time) {
+                    eventTime.disabled = false;
+                    eventTime.parentNode.classList.remove('disabled');
+                }
+        });
+
         totalCost -= dataTarget;
         total.innerHTML = `Total: $${totalCost}`;
     }
