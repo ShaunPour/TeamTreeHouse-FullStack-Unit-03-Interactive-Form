@@ -229,7 +229,8 @@ function cardValid(cardNum, cardErr, cardLabel) {
 //The zip and cvv validations are nearly identical in function. Both will only accept inputs of a specific length (5 for the zip and 3 for the cvv) and will display an error border and message if any other value is provided.
 
 function zipValid(zip, zipErr, zipLabel) {
-    if(zip.value.length != 5) {
+    const regexZip = /^\d{5}$/.test(zip.value);
+    if(!regexZip) {
         zipErr.style.display = 'block';
         zipLabel.classList.add('not-valid');
         zipLabel.classList.remove('valid');
@@ -243,7 +244,8 @@ function zipValid(zip, zipErr, zipLabel) {
 }
 
 function cvvValid(cvv, cvvErr, cvvLabel) {
-    if(cvv.value.length != 3) {
+    const regexCvv = /^\d{3}$/.test(cvv.value);
+    if(!regexCvv) {
         cvvErr.style.display = 'block';
         cvvLabel.classList.add('not-valid');
         cvvLabel.classList.remove('valid');
