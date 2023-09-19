@@ -156,7 +156,7 @@ function nameValid(Name, nameErr, nameLabel) {
         nameErr.style.display = 'none';
         nameLabel.classList.add('valid');
         nameLabel.classList.remove('not-valid');
-        return false;
+        return true;
     }
 }
 
@@ -188,11 +188,12 @@ function activityValid() {
             activityErr.style.display = 'none';
             activities.classList.add('valid');
             activities.classList.remove('not-valid');
-            return;
+            return true;
         } else {
             activityErr.style.display = 'block';
             activities.classList.add('not-valid');
             activities.classList.remove('valid');
+            return false;
         }
     }
 }
