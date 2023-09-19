@@ -48,4 +48,5 @@ Also, one sidenote: the conditional error messages are on the card number functi
 
 
 cardErr.innerHTML = 'Card number is required';
+
 cardErr.innerHTML = 'Credit card number must be between 13 - 16 digits';
