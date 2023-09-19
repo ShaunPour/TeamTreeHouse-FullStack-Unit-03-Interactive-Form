@@ -14,12 +14,14 @@ const activities = document.getElementById('activities');
 let totalCost = 0;
 const total = document.getElementById("activities-cost");
 
-/*
-
-*/
+//Of these two, activityBox gets used far more as it is the main element used to select the checboxes for verifying the activities section further down while the label is only used briefly in setting the focus for those checkboxes.
 
 const activityBox = document.querySelectorAll('input[type="checkbox"]');
 const activityLabel = document.querySelectorAll('.activities label');
+
+/*
+These elements contain the various references to the payment method pieces as well as the form which are used when the user selects a payment method to decide what should be shown.
+*/
 
 const payment = document.getElementById('payment');
 const card = document.getElementById('credit-card');
@@ -42,11 +44,18 @@ const zipLabel = zip.parentNode;
 const cvvErr = document.getElementById('cvv-hint');
 const cvvLabel = cvv.parentNode;
 
+/*
+The basic setup elements for the sections requiring setup is established here with the other field for job role set to be hidden (as it is only supposed to be visible if other is chosen in the associated dropdown).
+The payment methods are also set to select the credit card payment method and hide all others.
+*/
+
 Name.focus();
 otherJobRole.style.display = 'none';
 paypal.style.display = 'none';
 bitcoin.style.display = 'none';
 payment[1].setAttribute('selected', 'selected');
+
+//In this section, the conditions for showing and hiding the job role other field are established. In will now show that field only if the element with a value of 'other' is selected in the job role dropdown.
 
 jobRole.addEventListener('change', () => {
     if(jobRole.value === 'other') {
@@ -55,6 +64,11 @@ jobRole.addEventListener('change', () => {
         otherJobRole.style.display = 'none';
     }
 });
+
+/*
+The section below links the choosable colors to the theme. By default, the color list is disabled and cannot be interacted with.
+It is enabled when a design is chosen from that dropdown however, which colors will be present on the list changes based on which design is selected with a set list of colors for each design.
+*/
 
 colorOptionList.disabled  = true;
 
@@ -75,6 +89,12 @@ designOption.addEventListener('change', () => {
     }
 });
 
+/*
+The below section interacts with the totalCost variable from above to listen for any change to the activities section. It also contains a variable that interacts with the function parameter and grabs its' data cost attribute.
+After acquiring the cost from its' attribute, the function checks to see if the target element's state is being changed to be checked or unchecked. If it is being checked then the value of the data cost attribute is added to the totalCost
+variable before using that information to modify the text value of the total cost displayed at the bottom of the section. If an element is being unchecked then it subtracts from totalCost instead.
+*/
+
 activities.addEventListener('change', (event) => {
     const dataTarget = parseInt(event.target.getAttribute('data-cost'));
 
@@ -86,6 +106,8 @@ activities.addEventListener('change', (event) => {
         total.innerHTML = `Total: $${totalCost}`;
     }
 });
+
+//This section checks which payment method is chosen and modifies the display accordingly so that only that element is displayed.
 
 payment.addEventListener('change', () => {
     if (payment.value == 'credit-card') {
@@ -103,6 +125,8 @@ payment.addEventListener('change', () => {
     }
 });
 
+//The following function only checks one thing. All it wants to know is if the name field is blank. If there is text in the name input field then nothing changes. If it is empty then it will display a red border and an error message warning that a name is required.
+
 function nameValid(Name, nameErr, nameLabel) {
     const nameVal = Name.value.trim();
     if (nameVal === '') {
@@ -117,6 +141,11 @@ function nameValid(Name, nameErr, nameLabel) {
         return false;
     }
 }
+
+/*
+Validation of the email field is twofold. The two things being checked for are that it has an email in the field and if it is correctly formatted to be considered an email.
+If either of these are not true then an error border and message are displayed warning the user to enter a valid email address.
+*/
 
 function emailValid(Email, emailErr, emailLabel) {
     const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(Email.value);
@@ -137,18 +166,23 @@ function activityValid() {
     
     for(let i = 0; i < activityBox.length; i++) {
         if(activityBox[i].checked) {
-            console.log('Yes');
             activityErr.style.display = 'none';
             activities.classList.add('valid');
             activities.classList.remove('not-valid');
+            return;
         } else {
-            console.log('No');
             activityErr.style.display = 'block';
             activities.classList.add('not-valid');
             activities.classList.remove('valid');
         }
     }
 }
+
+/*
+Checking for a valid credit card number is relatively simple, for the most part. This function first wants to know if the user has entered a card number.
+If they have then the next thing to confirm is the length as this function requires a credit card number to be all numbers and between 13 and 16 characters long.
+If either of these conditions fail to validate as being true, the section will display an error border and a warning message which varies depending on the type of failure.
+*/
 
 function cardValid(cardNum, cardErr, cardLabel) {
     const regexCC = /^\d{13,16}$/.test(cardNum.value);
@@ -171,6 +205,8 @@ function cardValid(cardNum, cardErr, cardLabel) {
             return true;
     }
 }
+
+//The zip and cvv validations are nearly identical in function. Both will only accept inputs of a specific length (5 for the zip and 3 for the cvv) and will display an error border and message if any other value is provided.
 
 function zipValid(zip, zipErr, zipLabel) {
     if(zip.value.length != 5) {
@@ -200,6 +236,10 @@ function cvvValid(cvv, cvvErr, cvvLabel) {
     }
 }
 
+/*The elements below are callbacks set up for the express purpose of enabling live validation of the various fields.
+If a user enters a field and starts interacting with it then it will validate as they do so while applying and removing the relevant error messages as needed.
+*/
+
 Name.addEventListener('keyup', () => {
     nameValid(Name, nameErr, nameLabel);
 });
@@ -207,6 +247,10 @@ Name.addEventListener('keyup', () => {
 Email.addEventListener('keyup', () => {
     emailValid(Email, emailErr, emailLabel);
 });
+
+activities.addEventListener('change', () => {
+    activityValid();
+})
 
 cardNum.addEventListener('keyup', () => {
     cardValid(cardNum, cardErr, cardLabel);
@@ -220,8 +264,14 @@ cvv.addEventListener('keyup', () => {
     cvvValid(cvv, cvvErr, cvvLabel);
 });
 
+/*
+Primarily the form event listener just exists to check that a value of true is returned by a validation function prior to allowing the form to submit
+but it has to do a bit of extra work for the payment method in the form of confirming that it is set to credit card before running any other type of validation so that a user
+who tries to enter a credit card and gets an error but then switches to paypal is capable of submitting the form.
+*/
+
 form.addEventListener('submit', (e) => {
-    if(nameValid(Name, nameErr, nameLabel)) {
+    if(!nameValid(Name, nameErr, nameLabel)) {
         e.preventDefault();
     }
     if(!emailValid(Email, emailErr, emailLabel)) {
@@ -245,8 +295,6 @@ form.addEventListener('submit', (e) => {
         if(!cvvValid(cvv, cvvErr, cvvLabel) && paymentCC == true) {
             e.preventDefault();
         }
-
-    e.preventDefault();
 });
 
 function activityFocus() {
@@ -265,4 +313,3 @@ function activityFocus() {
 }
 
 activityFocus();
-
