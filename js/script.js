@@ -1,5 +1,5 @@
 /*Variables for the multitude of elements needed for interacting with the page below. Group into sections based on relationship to each other.
-The interaction with most is simply grabbing some text from an input or changing the element's interactibility (i.e. making it so the other job field only shows when thtat role is selected).
+The interaction with most is simply grabbing some text from an input or changing the element's interactibility (i.e. making it so the other job field only shows when that role is selected).
 */
 const Name = document.getElementById('name');
 const Email = document.getElementById('email');
@@ -97,6 +97,8 @@ variable before using that information to modify the text value of the total cos
 
 activities.addEventListener('change', (event) => {
     const dataTarget = parseInt(event.target.getAttribute('data-cost'));
+    const time = event.target.getAttribute('data-day-and-time');
+    console.log(time);
 
     if(event.target.checked) {
         totalCost += dataTarget;
@@ -163,7 +165,8 @@ function emailValid(Email, emailErr, emailLabel) {
 }
 
 function activityValid() {
-    
+        
+        
     for(let i = 0; i < activityBox.length; i++) {
         if(activityBox[i].checked) {
             activityErr.style.display = 'none';
