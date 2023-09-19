@@ -18,6 +18,9 @@ const total = document.getElementById("activities-cost");
 
 */
 
+const activityBox = document.querySelectorAll('input[type="checkbox"]');
+const activityLabel = document.querySelectorAll('.activities label');
+
 const payment = document.getElementById('payment');
 const card = document.getElementById('credit-card');
 const paypal = document.getElementById('paypal');
@@ -31,6 +34,7 @@ const nameErr = document.getElementById('name-hint');
 const nameLabel = Name.parentNode;
 const emailErr = document.getElementById('email-hint');
 const emailLabel = Email.parentNode;
+const activityErr = document.getElementById('activities-hint');
 const cardErr = document.getElementById('cc-hint');
 const cardLabel = cardNum.parentNode;
 const zipErr = document.getElementById('zip-hint');
@@ -129,8 +133,21 @@ function emailValid(Email, emailErr, emailLabel) {
     }
 }
 
-function activitiesValid() {
+function activityValid() {
     
+    for(let i = 0; i < activityBox.length; i++) {
+        if(activityBox[i].checked) {
+            console.log('Yes');
+            activityErr.style.display = 'none';
+            activities.classList.add('valid');
+            activities.classList.remove('not-valid');
+        } else {
+            console.log('No');
+            activityErr.style.display = 'block';
+            activities.classList.add('not-valid');
+            activities.classList.remove('valid');
+        }
+    }
 }
 
 function cardValid(cardNum, cardErr, cardLabel) {
@@ -210,7 +227,7 @@ form.addEventListener('submit', (e) => {
     if(!emailValid(Email, emailErr, emailLabel)) {
         e.preventDefault();
     }
-    if(!emailValid(Email, emailErr, emailLabel)) {
+    if(!activityValid()) {
         e.preventDefault();
     }
     let paymentCC = false;
@@ -228,8 +245,24 @@ form.addEventListener('submit', (e) => {
         if(!cvvValid(cvv, cvvErr, cvvLabel) && paymentCC == true) {
             e.preventDefault();
         }
-    // if(!activitiesValid()) {
-    //     e.preventDefault();
-    // }
+
     e.preventDefault();
 });
+
+function activityFocus() {
+    for(let i = 0; i < activityBox.length; i++) {
+        activityBox[i].addEventListener('focus', (event) => {
+            if(event) {
+                activityLabel[i].classList.add('focus');
+            }
+        });
+        activityBox[i].addEventListener('blur', (event) => {
+            if(event) {
+                activityLabel[i].classList.remove('focus');
+            }
+        });
+    }
+}
+
+activityFocus();
+
