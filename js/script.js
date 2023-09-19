@@ -231,6 +231,13 @@ function cardValid(cardNum, cardErr, cardLabel) {
 function zipValid(zip, zipErr, zipLabel) {
     const regexZip = /^\d{5}$/.test(zip.value);
     if(!regexZip) {
+        zipErr.innerHTML = 'Must be a valid 5 digit number';
+        zipErr.style.display = 'block';
+        zipLabel.classList.add('not-valid');
+        zipLabel.classList.remove('valid');
+        return false;
+    } else if(zip.length != 5) {
+        zipErr.innerHTML = 'Zip Code must be 5 digits';
         zipErr.style.display = 'block';
         zipLabel.classList.add('not-valid');
         zipLabel.classList.remove('valid');
@@ -246,6 +253,13 @@ function zipValid(zip, zipErr, zipLabel) {
 function cvvValid(cvv, cvvErr, cvvLabel) {
     const regexCvv = /^\d{3}$/.test(cvv.value);
     if(!regexCvv) {
+        cvvErr.innerHTML = 'Must be a valid 3 digit number';
+        cvvErr.style.display = 'block';
+        cvvLabel.classList.add('not-valid');
+        cvvLabel.classList.remove('valid');
+        return false;
+    } else if(cvv.length != 3) {
+        cvvErr.innerHTML = 'CVV must be 3 digits';
         cvvErr.style.display = 'block';
         cvvLabel.classList.add('not-valid');
         cvvLabel.classList.remove('valid');
