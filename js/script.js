@@ -182,19 +182,16 @@ function emailValid(Email, emailErr, emailLabel) {
 
 function activityValid() {
         
-        
-    for(let i = 0; i < activityBox.length; i++) {
-        if(activityBox[i].checked) {
+    if(totalCost !== 0) {
             activityErr.style.display = 'none';
             activities.classList.add('valid');
             activities.classList.remove('not-valid');
             return true;
-        } else {
-            activityErr.style.display = 'block';
-            activities.classList.add('not-valid');
-            activities.classList.remove('valid');
-            return false;
-        }
+    } else {
+        activityErr.style.display = 'block';
+        activities.classList.add('not-valid');
+        activities.classList.remove('valid');
+        return false;
     }
 }
 
@@ -231,12 +228,13 @@ function cardValid(cardNum, cardErr, cardLabel) {
 function zipValid(zip, zipErr, zipLabel) {
     const regexZip = /^\d{5}$/.test(zip.value);
     if(!regexZip) {
-        zipErr.innerHTML = 'Must be a valid 5 digit number';
+        zipErr.innerHTML = 'Zip code must be 5 digits';
         zipErr.style.display = 'block';
         zipLabel.classList.add('not-valid');
         zipLabel.classList.remove('valid');
         return false;
-    } else {
+    }
+    else {
         zipErr.style.display = 'none';
         zipLabel.classList.add('valid');
         zipLabel.classList.remove('not-valid');
@@ -247,7 +245,7 @@ function zipValid(zip, zipErr, zipLabel) {
 function cvvValid(cvv, cvvErr, cvvLabel) {
     const regexCvv = /^\d{3}$/.test(cvv.value);
     if(!regexCvv) {
-        cvvErr.innerHTML = 'Must be a valid 3 digit number';
+        cvvErr.innerHTML = 'CVV must be 3 digits';
         cvvErr.style.display = 'block';
         cvvLabel.classList.add('not-valid');
         cvvLabel.classList.remove('valid');
